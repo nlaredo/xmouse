@@ -1,0 +1,5 @@
+//
+// Prefix header for all source files of the 'xmouse' target in the 'xmouse' project.
+//
+
+#include <Carbon/Carbon.h>
