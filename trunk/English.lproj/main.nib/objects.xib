@@ -4,7 +4,7 @@
   <object name="rootObject" class="NSCustomObject" id="1">
     <string name="customClass">NSApplication</string>
   </object>
-  <array count="24" name="allObjects">
+  <array count="29" name="allObjects">
     <object class="IBCarbonMenu" id="29">
       <string name="title">main</string>
       <array count="3" name="items">
@@ -12,11 +12,21 @@
           <string name="title">xmouse</string>
           <object name="submenu" class="IBCarbonMenu" id="184">
             <string name="title">xmouse</string>
-            <array count="1" name="items">
+            <array count="3" name="items">
               <object class="IBCarbonMenuItem" id="187">
                 <string name="title">About xmouse</string>
                 <int name="keyEquivalentModifier">0</int>
                 <ostype name="command">abou</ostype>
+              </object>
+              <object class="IBCarbonMenuItem" id="219">
+                <boolean name="separator">TRUE</boolean>
+                <boolean name="updateSingleItem">TRUE</boolean>
+              </object>
+              <object class="IBCarbonMenuItem" id="220">
+                <boolean name="updateSingleItem">TRUE</boolean>
+                <string name="title">Preferences...</string>
+                <string name="keyEquivalent">,</string>
+                <ostype name="command">pref</ostype>
               </object>
             </array>
             <string name="name">_NSAppleMenu</string>
@@ -58,19 +68,12 @@
           <string name="title">Window</string>
           <object name="submenu" class="IBCarbonMenu" id="195">
             <string name="title">Window</string>
-            <array count="6" name="items">
+            <array count="4" name="items">
               <object class="IBCarbonMenuItem" id="190">
                 <boolean name="dynamic">TRUE</boolean>
                 <string name="title">Minimize</string>
                 <string name="keyEquivalent">m</string>
                 <ostype name="command">mini</ostype>
-              </object>
-              <object class="IBCarbonMenuItem" id="191">
-                <boolean name="dynamic">TRUE</boolean>
-                <string name="title">Minimize All</string>
-                <string name="keyEquivalent">m</string>
-                <int name="keyEquivalentModifier">1572864</int>
-                <ostype name="command">mina</ostype>
               </object>
               <object class="IBCarbonMenuItem" id="197">
                 <string name="title">Zoom</string>
@@ -83,12 +86,6 @@
                 <boolean name="dynamic">TRUE</boolean>
                 <string name="title">Bring All to Front</string>
                 <ostype name="command">bfrt</ostype>
-              </object>
-              <object class="IBCarbonMenuItem" id="193">
-                <boolean name="dynamic">TRUE</boolean>
-                <string name="title">Arrange in Front</string>
-                <int name="keyEquivalentModifier">1572864</int>
-                <ostype name="command">frnt</ostype>
               </object>
             </array>
             <string name="name">_NSWindowsMenu</string>
@@ -105,58 +102,144 @@
     <reference idRef="151"/>
     <reference idRef="152"/>
     <object class="IBCarbonWindow" id="166">
-      <string name="windowRect">75 110 295 472 </string>
+      <string name="windowRect">100 100 320 482 </string>
       <string name="title">xmouse</string>
       <object name="rootControl" class="IBCarbonRootControl" id="167">
-        <string name="bounds">0 0 220 362 </string>
-        <string name="viewFrame">0 0 362 220 </string>
-        <array count="3" name="subviews">
-          <object class="IBCarbonDBListView" id="204">
-            <string name="bounds">20 20 200 265 </string>
-            <string name="viewFrame">20 20 245 180 </string>
+        <string name="bounds">0 0 220 382 </string>
+        <string name="viewFrame">0 0 382 220 </string>
+        <array count="8" name="subviews">
+          <object class="IBCarbonEditText" id="217">
+            <string name="bounds">23 23 197 243 </string>
+            <string name="viewFrame">23 23 220 174 </string>
             <ostype name="controlSignature">xnil</ostype>
-            <ostype name="command">list</ostype>
+            <int name="controlID">100</int>
+            <string name="title">Event Viewer</string>
+            <ostype name="command">text</ostype>
+            <string name="helpTagText">Event Viewer</string>
+            <string name="helpTagExtendedText">Use Start and Stop buttons to control global window event tracking.   This is intended for debugging</string>
+            <int name="helpTagDisplaySide">13</int>
             <object name="layoutInfo" class="IBCarbonHILayoutInfo">
               <int name="bindingTopKind">1</int>
               <int name="bindingLeftKind">1</int>
               <int name="bindingBottomKind">2</int>
               <int name="bindingRightKind">2</int>
             </object>
-            <array count="1" name="listViewColumns">
-              <object class="IBCarbonDBListViewColumn">
-                <ostype name="propertyID">evnt</ostype>
-                <int name="sortOrder">1</int>
-                <string name="titleString">event</string>
-              </object>
-            </array>
+            <int name="justification">-2</int>
+            <boolean name="isUnicode">TRUE</boolean>
           </object>
-          <object class="IBCarbonButton" id="205">
-            <string name="bounds">180 272 200 342 </string>
-            <string name="viewFrame">272 180 70 20 </string>
+          <object class="IBCarbonScrollBar" id="218">
+            <string name="bounds">20 248 200 263 </string>
+            <string name="viewFrame">248 20 15 180 </string>
             <ostype name="controlSignature">xnil</ostype>
-            <string name="title">Stop</string>
-            <ostype name="command">not!</ostype>
+            <int name="controlID">110</int>
+            <ostype name="command">tscr</ostype>
             <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingTopKind">1</int>
               <int name="bindingBottomKind">2</int>
               <int name="bindingRightKind">2</int>
             </object>
+            <boolean name="isLive">TRUE</boolean>
+            <int name="initialValue">12</int>
+            <int name="maximumValue">12</int>
+          </object>
+          <object class="IBCarbonCheckBox" id="211">
+            <string name="bounds">20 271 38 362 </string>
+            <string name="viewFrame">271 20 91 18 </string>
+            <ostype name="controlSignature">xnil</ostype>
+            <int name="controlID">200</int>
+            <string name="title">Auto-Raise</string>
+            <ostype name="command">auto</ostype>
+            <string name="helpTagText">Toggle auto-raise on window activation</string>
+            <string name="helpTagExtendedText">When another window is activated by mouse movement, enabling this option will cause it to become the topmost window after the specified delay</string>
+            <int name="helpTagDisplaySide">13</int>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingTopKind">1</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+            <int name="initialState">1</int>
+          </object>
+          <object class="IBCarbonEditText" id="214">
+            <string name="bounds">49 274 65 326 </string>
+            <string name="viewFrame">274 49 52 16 </string>
+            <ostype name="controlSignature">xnil</ostype>
+            <int name="controlID">210</int>
+            <string name="title">0</string>
+            <ostype name="command">time</ostype>
+            <string name="helpTagText">Auto raise delay in milliseconds</string>
+            <string name="helpTagExtendedText">If auto-raise is enabled, this represents the delay in milliseconds before a window is raised after first activated by the mouse entering the window</string>
+            <int name="helpTagDisplaySide">14</int>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingTopKind">1</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+            <int name="justification">1</int>
+            <boolean name="isFieldEditor">TRUE</boolean>
+            <boolean name="isUnicode">TRUE</boolean>
+          </object>
+          <object class="IBCarbonLittleArrows" id="215">
+            <string name="bounds">46 326 68 339 </string>
+            <string name="viewFrame">326 46 13 22 </string>
+            <ostype name="controlSignature">xnil</ostype>
+            <int name="controlID">220</int>
+            <ostype name="command">tims</ostype>
+            <string name="helpTagText">increment/decrement auto raise delay</string>
+            <string name="helpTagExtendedText">Increase or decrease the auto-raise delay by 100 millisecond units</string>
+            <int name="helpTagDisplaySide">14</int>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingTopKind">1</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+            <int name="maximumValue">10000</int>
+            <int name="increment">100</int>
+          </object>
+          <object class="IBCarbonStaticText" id="216">
+            <string name="bounds">48 337 70 362 </string>
+            <string name="viewFrame">337 48 25 22 </string>
+            <ostype name="controlSignature">xnil</ostype>
+            <int name="controlID">230</int>
+            <string name="title">ms</string>
+            <ostype name="command">mstx</ostype>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingTopKind">1</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+            <int name="justification">1</int>
           </object>
           <object class="IBCarbonButton" id="206">
-            <string name="bounds">148 271 168 341 </string>
-            <string name="viewFrame">271 148 70 20 </string>
+            <string name="bounds">148 271 168 362 </string>
+            <string name="viewFrame">271 148 91 20 </string>
             <ostype name="controlSignature">xnil</ostype>
+            <int name="controlID">300</int>
             <string name="title">Start</string>
             <ostype name="command">ok  </ostype>
+            <string name="helpTagText">Start event logging</string>
+            <string name="helpTagExtendedText">Capture all window events until Stop button is pressed.   This is intended for debugging</string>
+            <int name="helpTagDisplaySide">13</int>
             <object name="layoutInfo" class="IBCarbonHILayoutInfo">
               <int name="bindingBottomKind">2</int>
               <int name="bindingRightKind">2</int>
             </object>
+          </object>
+          <object class="IBCarbonButton" id="205">
+            <string name="bounds">180 271 200 362 </string>
+            <string name="viewFrame">271 180 91 20 </string>
+            <ostype name="controlSignature">xnil</ostype>
+            <int name="controlID">310</int>
+            <string name="title">Stop</string>
+            <ostype name="command">not!</ostype>
+            <string name="helpTagText">Stop event logging</string>
+            <string name="helpTagExtendedText">Stops any in-progress event capture.  This is intended for debugging</string>
+            <int name="helpTagDisplaySide">14</int>
+            <object name="layoutInfo" class="IBCarbonHILayoutInfo">
+              <int name="bindingBottomKind">2</int>
+              <int name="bindingRightKind">2</int>
+            </object>
+            <int name="buttonType">2</int>
           </object>
         </array>
       </object>
       <boolean name="receiveUpdates">FALSE</boolean>
       <boolean name="liveResize">TRUE</boolean>
-      <boolean name="toolbarButton">TRUE</boolean>
       <boolean name="compositing">TRUE</boolean>
       <int name="themeBrush">53</int>
       <boolean name="hideOnFullScreen">TRUE</boolean>
@@ -164,7 +247,7 @@
       <boolean name="doesNotCycle">TRUE</boolean>
       <unsigned_int name="WindowRods">15</unsigned_int>
       <string name="ScreenRectAtEncodeTime">22 0 861 1440 </string>
-      <int name="WindowMinWidth">362</int>
+      <int name="WindowMinWidth">382</int>
       <int name="WindowMinHeight">220</int>
     </object>
     <reference idRef="167"/>
@@ -172,18 +255,23 @@
     <reference idRef="185"/>
     <reference idRef="187"/>
     <reference idRef="190"/>
-    <reference idRef="191"/>
     <reference idRef="192"/>
-    <reference idRef="193"/>
     <reference idRef="194"/>
     <reference idRef="195"/>
     <reference idRef="196"/>
     <reference idRef="197"/>
-    <reference idRef="204"/>
     <reference idRef="205"/>
     <reference idRef="206"/>
+    <reference idRef="211"/>
+    <reference idRef="214"/>
+    <reference idRef="215"/>
+    <reference idRef="216"/>
+    <reference idRef="217"/>
+    <reference idRef="218"/>
+    <reference idRef="219"/>
+    <reference idRef="220"/>
   </array>
-  <array count="24" name="allParents">
+  <array count="29" name="allParents">
     <reference idRef="1"/>
     <reference idRef="147"/>
     <reference idRef="147"/>
@@ -198,9 +286,7 @@
     <reference idRef="29"/>
     <reference idRef="184"/>
     <reference idRef="195"/>
-    <reference idRef="195"/>
     <reference idRef="29"/>
-    <reference idRef="195"/>
     <reference idRef="195"/>
     <reference idRef="192"/>
     <reference idRef="195"/>
@@ -208,16 +294,21 @@
     <reference idRef="167"/>
     <reference idRef="167"/>
     <reference idRef="167"/>
+    <reference idRef="167"/>
+    <reference idRef="167"/>
+    <reference idRef="167"/>
+    <reference idRef="167"/>
+    <reference idRef="167"/>
+    <reference idRef="184"/>
+    <reference idRef="184"/>
   </array>
-  <dictionary count="4" name="nameTable">
+  <dictionary count="3" name="nameTable">
     <string>Files Owner</string>
     <reference idRef="1"/>
-    <string>ListView</string>
-    <reference idRef="204"/>
     <string>MainWindow</string>
     <reference idRef="166"/>
     <string>MenuBar</string>
     <reference idRef="29"/>
   </dictionary>
-  <unsigned_int name="nextObjectID">208</unsigned_int>
+  <unsigned_int name="nextObjectID">221</unsigned_int>
 </object>

@@ -9,8 +9,8 @@
 #include <Carbon/Carbon.h>
 
 static OSStatus        AppEventHandler( EventHandlerCallRef inCaller, EventRef inEvent, void* inRefcon );
-static OSStatus        HandleNew();
 static OSStatus        WindowEventHandler( EventHandlerCallRef inCaller, EventRef inEvent, void* inRefcon );
+static WindowRef       window;
 
 static IBNibRef        sNibRef;
 
@@ -18,9 +18,12 @@ static IBNibRef        sNibRef;
 int main(int argc, char* argv[])
 {
     OSStatus                    err;
+    EventHandlerUPP             eventhandler;
     static const EventTypeSpec    kAppEvents[] =
     {
-        { kEventClassCommand, kEventCommandProcess }
+        { kEventClassCommand, kEventCommandProcess },
+	{ kEventClassMouse, kEventMouseMoved },
+	{ kEventClassWindow, kEventWindowClose }
     };
 
     // Create a Nib reference, passing the name of the nib file (without the .nib extension).
@@ -33,18 +36,35 @@ int main(int argc, char* argv[])
     err = SetMenuBarFromNib( sNibRef, CFSTR("MenuBar") );
     require_noerr( err, CantSetMenuBar );
     
+    eventhandler = NewEventHandlerUPP( AppEventHandler );
     // Install our handler for common commands on the application target
-    InstallApplicationEventHandler( NewEventHandlerUPP( AppEventHandler ),
+    InstallApplicationEventHandler( eventhandler,
                                     GetEventTypeCount( kAppEvents ), kAppEvents,
                                     0, NULL );
+
+    // Install same event handler for monitoring events from all processes
+    InstallEventHandler( GetEventMonitorTarget(), eventhandler,
+                         GetEventTypeCount( kAppEvents ), kAppEvents,
+                         0, NULL );
     
     // Create a new window. A full-fledged application would do this from an AppleEvent handler
     // for kAEOpenApplication.
-    HandleNew();
+    err = CreateWindowFromNib( sNibRef, CFSTR("MainWindow"), &window );
+    require_noerr( err, CantCreateWindow );
+
+    // Install a command handler on the window. We don't use this handler yet, but nearly all
+    // Carbon apps will need to handle commands, so this saves everyone a little typing.
+    InstallWindowEventHandler( window, eventhandler,
+                               GetEventTypeCount( kAppEvents ), kAppEvents,
+                               window, NULL );
+    
+    // The window was created hidden, so show it
+    ShowWindow( window );
     
     // Run the event loop
     RunApplicationEventLoop();
 
+CantCreateWindow:
 CantSetMenuBar:
 CantGetNibRef:
     return err;
@@ -68,8 +88,10 @@ AppEventHandler( EventHandlerCallRef inCaller, EventRef inEvent, void* inRefcon 
                 case kEventCommandProcess:
                     switch ( cmd.commandID )
                     {
-                        case kHICommandNew:
-                            result = HandleNew();
+
+                        case kHICommandPreferences:
+			    ShowWindow( window );
+			    result = noErr;
                             break;
                             
                         // Add your own command-handling cases here
@@ -81,80 +103,22 @@ AppEventHandler( EventHandlerCallRef inCaller, EventRef inEvent, void* inRefcon 
             }
             break;
         }
+	case kEventClassWindow:
+	{
+            switch ( GetEventKind( inEvent ) )
+            {
+		// keep preferences window around, just hide it on close...
+                case kEventWindowClose:
+		    HideWindow( window );
+		    result = noErr;
+		    break;
+	    }
+	    break;
+	}
             
         default:
             break;
     }
     
     return result;
-}
-
-//--------------------------------------------------------------------------------------------
-DEFINE_ONE_SHOT_HANDLER_GETTER( WindowEventHandler )
-
-//--------------------------------------------------------------------------------------------
-static OSStatus
-HandleNew()
-{
-    OSStatus                    err;
-    WindowRef                    window;
-    static const EventTypeSpec    kWindowEvents[] =
-    {
-        { kEventClassCommand, kEventCommandProcess }
-    };
-    
-    // Create a window. "MainWindow" is the name of the window object. This name is set in 
-    // InterfaceBuilder when the nib is created.
-    err = CreateWindowFromNib( sNibRef, CFSTR("MainWindow"), &window );
-    require_noerr( err, CantCreateWindow );
-
-    // Install a command handler on the window. We don't use this handler yet, but nearly all
-    // Carbon apps will need to handle commands, so this saves everyone a little typing.
-    InstallWindowEventHandler( window, GetWindowEventHandlerUPP(),
-                               GetEventTypeCount( kWindowEvents ), kWindowEvents,
-                               window, NULL );
-    
-    // Position new windows in a staggered arrangement on the main screen
-    RepositionWindow( window, NULL, kWindowCascadeOnMainScreen );
-    
-    // The window was created hidden, so show it
-    ShowWindow( window );
-    
-CantCreateWindow:
-    return err;
-}
-
-//--------------------------------------------------------------------------------------------
-static OSStatus
-WindowEventHandler( EventHandlerCallRef inCaller, EventRef inEvent, void* inRefcon )
-{
-    OSStatus    err = eventNotHandledErr;
-    
-    switch ( GetEventClass( inEvent ) )
-    {
-        case kEventClassCommand:
-        {
-            HICommandExtended cmd;
-            verify_noerr( GetEventParameter( inEvent, kEventParamDirectObject, typeHICommand, NULL, sizeof( cmd ), NULL, &cmd ) );
-            
-            switch ( GetEventKind( inEvent ) )
-            {
-                case kEventCommandProcess:
-                    switch ( cmd.commandID )
-                    {
-                        // Add your own command-handling cases here
-                        
-                        default:
-                            break;
-                    }
-                    break;
-            }
-            break;
-        }
-            
-        default:
-            break;
-    }
-    
-    return err;
 }
