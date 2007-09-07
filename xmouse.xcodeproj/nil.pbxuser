@@ -9,6 +9,20 @@
 			209478610C850F610005D72C /* xmouse */,
 		);
 		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXErrorsWarningsDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXErrorsWarningsDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					300,
+					133,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXErrorsWarningsDataSource_TypeID,
+					PBXErrorsWarningsDataSource_MessageID,
+					PBXErrorsWarningsDataSource_LocationID,
+				);
+			};
 			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
 				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
 				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
@@ -43,6 +57,18 @@
 					PBXFileDataSource_Errors_ColumnID,
 					PBXFileDataSource_Warnings_ColumnID,
 					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFindDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					120,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFindDataSource_MessageID,
+					PBXFindDataSource_LocationID,
 				);
 			};
 			PBXConfiguration.PBXFileTableDataSource3.PBXSymbolsDataSource = {
@@ -107,12 +133,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 210554446;
-			PBXWorkspaceStateSaveDate = 210554446;
-		};
-		perUserProjectItems = {
-			20D013310C8CE9800092025F /* PBXBookmark */ = 20D013310C8CE9800092025F /* PBXBookmark */;
-			20D013360C8CE99C0092025F /* PBXTextBookmark */ = 20D013360C8CE99C0092025F /* PBXTextBookmark */;
+			PBXPerProjectTemplateStateSaveDate = 210874619;
+			PBXWorkspaceStateSaveDate = 210874619;
 		};
 		sourceControlManager = 209478770C850F890005D72C /* Source Control */;
 		userBuildSettings = {
@@ -120,7 +142,7 @@
 	};
 	20286C2BFDCF999611CA2CEA /* main.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {800, 2254}}";
+			sepNavIntBoundsRect = "{{0, 0}, {800, 2030}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRect = "{{0, 0}, {711, 429}}";
 			sepNavWindowFrame = "{{15, 315}, {750, 558}}";
@@ -147,6 +169,8 @@
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
 		name = xmouse;
+		savedGlobals = {
+		};
 		sourceDirectories = (
 		);
 	};
@@ -162,20 +186,6 @@
 	209478780C850F890005D72C /* Code sense */ = {
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
-	};
-	20D013310C8CE9800092025F /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 20286C2BFDCF999611CA2CEA /* main.c */;
-	};
-	20D013360C8CE99C0092025F /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 20286C2BFDCF999611CA2CEA /* main.c */;
-		name = "main.c: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1082;
-		vrLoc = 0;
 	};
 	32DBCF6D0370B57F00C91783 /* xmouse_Prefix.pch */ = {
 		uiCtxt = {

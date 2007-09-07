@@ -7,10 +7,21 @@
 //
 
 #include <Carbon/Carbon.h>
+#include <stdio.h>
+#include <string.h>
+
+#ifndef kCGEventTapOptionDefault
+#define kCGEventTapOptionDefault 0
+#endif
 
 static OSStatus        AppEventHandler( EventHandlerCallRef inCaller, EventRef inEvent, void* inRefcon );
 static OSStatus        WindowEventHandler( EventHandlerCallRef inCaller, EventRef inEvent, void* inRefcon );
+static CGEventRef      AppEventTapCallback( CGEventTapProxy proxy, CGEventType type, CGEventRef inEvent, void* inRefcon );
 static WindowRef       window;
+static CFMachPortRef   machport;
+static CFRunLoopSourceRef cfrls;
+static int             connection;
+extern OSStatus CGSSetWindowAlpha(long cid, long wid, float f);
 
 static IBNibRef        sNibRef;
 
@@ -22,7 +33,6 @@ int main(int argc, char* argv[])
     static const EventTypeSpec    kAppEvents[] =
     {
         { kEventClassCommand, kEventCommandProcess },
-	{ kEventClassMouse, kEventMouseMoved },
 	{ kEventClassWindow, kEventWindowClose }
     };
 
@@ -42,11 +52,6 @@ int main(int argc, char* argv[])
                                     GetEventTypeCount( kAppEvents ), kAppEvents,
                                     0, NULL );
 
-    // Install same event handler for monitoring events from all processes
-    InstallEventHandler( GetEventMonitorTarget(), eventhandler,
-                         GetEventTypeCount( kAppEvents ), kAppEvents,
-                         0, NULL );
-    
     // Create a new window. A full-fledged application would do this from an AppleEvent handler
     // for kAEOpenApplication.
     err = CreateWindowFromNib( sNibRef, CFSTR("MainWindow"), &window );
@@ -60,7 +65,23 @@ int main(int argc, char* argv[])
     
     // The window was created hidden, so show it
     ShowWindow( window );
+
+    connection = _CGSDefaultConnection();
+
+    // Create an event tap (This is why xmouse needs OSX 10.4 and later only)
+    machport = CGEventTapCreate( kCGAnnotatedSessionEventTap,
+				 kCGHeadInsertEventTap,
+				 kCGEventTapOptionDefault,
+				 CGEventMaskBit(kCGEventMouseMoved),
+				 AppEventTapCallback,
+				 NULL);
+
+    // Create a CFRunLoopSource object for a CFMachPort object
+    cfrls = CFMachPortCreateRunLoopSource( NULL, machport, 0 );
+    // adds a CFRunLoopSource object to a run loop mode
+    CFRunLoopAddSource( CFRunLoopGetCurrent(), cfrls, kCFRunLoopCommonModes );
     
+    //CFRunLoopRun();
     // Run the event loop
     RunApplicationEventLoop();
 
@@ -68,6 +89,28 @@ CantCreateWindow:
 CantSetMenuBar:
 CantGetNibRef:
     return err;
+}
+//--------------------------------------------------------------------------------------------
+static CGEventRef
+AppEventTapCallback( CGEventTapProxy proxy, CGEventType type, CGEventRef inEvent, void* inRefcon )
+{
+    CGPoint where = CGEventGetLocation(inEvent), localwhere;
+    CGEventTimestamp when = CGEventGetTimestamp(inEvent);
+    int wid, cid;
+    static int old_wid = 0, old_cid = 0;;
+
+    CGSFindWindowByGeometry( connection, 0, 1, 0, &where, &localwhere, &wid, &cid);
+    if (wid != old_wid) {
+	old_wid = wid;
+	old_cid = cid;
+	//fprintf(stderr, "0x%08x: %9.1f %9.1f, wid=0x%08x, cid=0x%08x %08x\n",
+	//	inEvent, where.x, where.y, wid, cid, FrontWindow());
+	//CGSSetWindowAlpha( connection, wid, 0.75 );
+	CGPostMouseEvent(where, false, 1, true);
+	CGPostMouseEvent(where, false, 1, false);
+    }
+    // As a passive listener, just return the original event...
+    return inEvent;
 }
 
 //--------------------------------------------------------------------------------------------
